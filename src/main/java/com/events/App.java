@@ -22,9 +22,8 @@ import java.util.HashMap;
  */
 public class App 
 {
-    public static void main( String[] args ) throws ClientProtocolException, IOException
-    {
-    	 HttpClient client = new DefaultHttpClient();
+    public static void main( String[] args ) throws ClientProtocolException, IOException{
+    	  HttpClient client = new DefaultHttpClient();
     	  HttpGet request = new HttpGet("https://graph.facebook.com/429539495634/feed?access_token=1524213444481981%7C8hnd6Ub7AxOOfi6GAQa5i2VGb7g");
     	  HttpResponse response = client.execute(request);
     	  ObjectMapper mapper = new ObjectMapper();
