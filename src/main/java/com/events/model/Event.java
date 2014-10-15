@@ -6,6 +6,8 @@ public class Event {
 	private String startDate;
 	private String imageSrc;
 	private String description;
+	private String link;
+	private String validTill;
 	public String getId() {
 		return id;
 	}
@@ -36,11 +38,25 @@ public class Event {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	public String getLink() {
+		return link;
+	}
+	public void setLink(String link) {
+		this.link = link;
+	}
+	
+	public String getValidTill() {
+		return validTill;
+	}
+	public void setValidTill(String validTill) {
+		this.validTill = validTill;
+	}
 	@Override
 	public String toString() {
 		return "Event [id=" + id + ", name=" + name + ", startDate="
 				+ startDate + ", imageSrc=" + imageSrc + ", description="
-				+ description + "]";
+				+ description + ", link=" + link + ", validTill=" + validTill
+				+ "]";
 	}
 	
 }

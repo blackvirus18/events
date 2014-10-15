@@ -21,6 +21,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 
 
+
 import com.events.model.Category;
 import com.events.model.Club;
 import com.events.model.Event;
@@ -30,7 +31,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class DataUtil {
 	private static String access_token="1524213444481981%7C8hnd6Ub7AxOOfi6GAQa5i2VGb7g";
 	private static String base_url="https://graph.facebook.com/";
-	private static List<String> meaningfulStrings = new ArrayList<>(Arrays.asList("night", "nite", "music","musical","#musical"));
+	private static List<String> meaningfulStrings = new ArrayList<String>(Arrays.asList("night", "nite", "music","musical","#musical"));
 	private List<String> getUrls(){
 		List<String> urls=new ArrayList<String>();
 		urls.add("https://www.facebook.com/TURQUOISE.COTTAGE");
@@ -90,15 +91,22 @@ public class DataUtil {
 	private List<Event> parsePageFeedData(String id) {
 		String feedUrl=id+"/feed";
 		List<Event> events=new ArrayList<Event>();
-		/*try {
+		try {
 			Map<String, Object> jsonFeedData=makeApiRequest(feedUrl,true);
 			List<HashMap<String,Object>> messageList=(List<HashMap<String, Object>>) jsonFeedData.get("data");
 			for(HashMap<String,Object> messageData:messageList){
-				int matchCount=0;
-				boolean meaningfulMessage=false;
-				boolean parseMessageLink=false;
-				String message=(String) messageData.get("message");
-				String[] tokenArray=message.split(" ");
+				String objectId=(String) messageData.get("object_id");
+				if(StringUtils.isNotBlank(objectId)){
+					Event event=new Event();
+					event.setDescription((String) messageData.get("message"));
+					event.setImageSrc(getImageUrl(objectId,"normal","400","400"));
+					event.setName((String)messageData.get("message"));
+					event.setId(objectId);
+					event.setStartDate((String)messageData.get("created_time"));
+					event.setLink((String)messageData.get("link"));
+					events.add(event);
+				}
+				/*String[] tokenArray=message.split(" ");
 				for(String token:tokenArray){
 					if(messageList.contains(token))
 						matchCount++;
@@ -116,7 +124,7 @@ public class DataUtil {
 					else{
 						
 					}
-				}
+				}*///TODO create intelligence for meaningful message
 			}
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
@@ -124,7 +132,7 @@ public class DataUtil {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 		return events;
 	}
 	private List<Club> parseIdsPage() {
@@ -184,6 +192,7 @@ public class DataUtil {
   }
 	private String getImageUrl(String id,String type,String width,String height){
 		String url=id+"/picture?redirect=0&type="+type+"&width="+width+"&height="+height;
+		//System.out.println(id);
 		Map<String, Object> imageDataObject=null;
 		try {
 			imageDataObject = makeApiRequest(url,false);
@@ -195,6 +204,7 @@ public class DataUtil {
 			e.printStackTrace();
 		}
 		Map<String, Object> imageObject=(Map<String, Object>)imageDataObject.get("data");
+		//System.out.println(imageDataObject);
 		return (String)imageObject.get("url");
 	}
 	private boolean eventtDateisValid(String eventDate) {
