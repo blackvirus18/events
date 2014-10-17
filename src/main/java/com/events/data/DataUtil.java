@@ -38,9 +38,9 @@ public class DataUtil {
 		urls.add("https://www.facebook.com/hypetheclub");
 		return urls;
 	}
-	public List<Club> createData() throws ClientProtocolException, IOException{
+	public List<Club> createData(List<String> urlList) throws ClientProtocolException, IOException{
 		List<Club> clubs=new ArrayList<Club>();
-		clubs=parseIdsPage();
+		clubs=parseIdsPage(urlList);
 		for(int i=0;i<clubs.size();i++){
 			Club club=clubs.get(i);
 			List<Event> events=parsePageFeedData(club.getId());
@@ -135,8 +135,7 @@ public class DataUtil {
 		}
 		return events;
 	}
-	private List<Club> parseIdsPage() {
-		List<String> urlList=getUrls();
+	private List<Club> parseIdsPage(List<String> urlList) {
 		String urls=StringUtils.join(urlList, ",");
 		String apiUrl="?ids="+urls;
 		List<Club> clubs=new ArrayList<Club>();
@@ -229,7 +228,7 @@ public class DataUtil {
 	}
 	public static void main(String args[]) throws ClientProtocolException, IOException{
 		DataUtil du=new DataUtil();
-		du.createData();
+		//du.createData();
 	}
 }
 

@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.client.ClientProtocolException;
@@ -17,13 +19,13 @@ import com.mysql.jdbc.Statement;
 
 public class MySqlExporter {
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-	static final String DB_URL = "jdbc:mysql://localhost:3306/events";
+	static final String DB_URL = "jdbc:mysql://54.187.75.199:3306/events";
 	private Connection conn;
 		public void insertData() {
 		createConnection();
 		DataUtil du=new DataUtil();
 		try {
-			List<Club> clubs=du.createData();
+			List<Club> clubs=du.createData(getUrls());
 			for(Club club:clubs){
 				insertClubData(club);
 				insertLocationData(club);
@@ -41,7 +43,29 @@ public class MySqlExporter {
 	}
 
 	
-
+		private List<String> getUrls(){
+			List<String> urls=new ArrayList<String>();
+			
+			String query = "select * from club_url";
+			try{
+			PreparedStatement st = conn.prepareStatement(query);
+		    ResultSet rs = st.executeQuery();
+		      while (rs.next())
+		      {
+		        String url = rs.getString("url");
+		        urls.add(url);
+		        System.out.println(url);
+		      }
+		      st.close();
+			}
+			catch(Exception ex){
+				ex.printStackTrace();
+			}
+//			urls.add("https://www.facebook.com/TURQUOISE.COTTAGE");
+//			urls.add("https://www.facebook.com/hypetheclub");
+			System.out.println(urls);
+			return urls;
+		}
 		private void insertClubData(Club club) {
 			PreparedStatement  stmt=null;
 		String sql="INSERT INTO club values(\""+club.getId()+"\",\""+club.getName()
@@ -115,7 +139,7 @@ public class MySqlExporter {
 	private void createConnection() {
 		try {
 			Class.forName(JDBC_DRIVER).newInstance();
-			conn = DriverManager.getConnection(DB_URL, "root", "");
+			conn = DriverManager.getConnection(DB_URL, "root", "root");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
