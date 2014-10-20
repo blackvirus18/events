@@ -20,10 +20,10 @@
             </bean>
         </mvc:message-converters>
     </mvc:annotation-driven> 
-
+<!-- 
      <bean
         class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
         <property name="useSuffixPatternMatch" value="true" />
-    </bean>
+    </bean> -->
 
 </beans>

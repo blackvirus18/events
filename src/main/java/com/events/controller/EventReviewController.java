@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/reviewEvent")
 public class EventReviewController {
 
-	@RequestMapping(value = "/getevents/", method = RequestMethod.GET)
+	@RequestMapping(value = "/getevents", method = RequestMethod.GET)
 	@ResponseBody
     public String getRule() {
 		System.out.println("code reaches here");
