@@ -3,7 +3,8 @@
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-        	/WEB-INF/api-servlet.xml
+        	/WEB-INF/api-servlet.xml,
+        	classpath:/applicationContext-services.xml
         </param-value>
     </context-param>
      <listener>
