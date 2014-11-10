@@ -1,12 +1,22 @@
 package com.events.model;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_EMPTY)
 public class Event {
+	@JsonProperty("id")
 	private String id;
+	@JsonProperty("name")
 	private String name;
+	@JsonProperty("startDate")
 	private String startDate;
+	@JsonProperty("imageSrc")
 	private String imageSrc;
+	@JsonProperty("description")
 	private String description;
+	@JsonProperty("link")
 	private String link;
+	@JsonProperty("validTill")
 	private String validTill;
 	public String getId() {
 		return id;

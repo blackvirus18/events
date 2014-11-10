@@ -55,7 +55,7 @@ app.directive("bookTable",function(){
 }); */
 app.controller('InstantSearchController',function($scope, searchService){
     $scope.getitems = function() {
-        var bookPromise = searchService.getBooks();
+        var bookPromise = searchService.getEvents();
         bookPromise.then(function(data){
             $scope.items=data;
             /*$scope.availableIsbn=[];
@@ -68,13 +68,27 @@ app.controller('InstantSearchController',function($scope, searchService){
                 $scope.$digest();
             }*/
         });
-    }
+    };
     $scope.updateSortOrder = function(sortorder) {
         $scope.sortorder = sortorder;
         if(!$scope.$$phase){
             $scope.$digest();
         }
-    }
+    };
+    $scope.approveEvents= function(){
+        var approvedEvents=new Array();
+        $.each($( "input:checked" ),function(){
+            var eventObj={};
+            eventObj.id=$(this).attr('id');
+            var parent=$(this).parent();
+            eventObj.name=$(parent).siblings('.event_name').find('textarea').val();
+            eventObj.description=$(parent).siblings('.event_description').find('textarea').val();
+            eventObj.validTill=$(parent).siblings('.valid_till').find('textarea').val();
+            approvedEvents.push(eventObj);
+            console.log(approvedEvents);
+        });
+        searchService.postApproveEvents(approvedEvents);
+    };
 });
 /*app.factory('searchService',['$http','$q',function($http,$q){
     var service={};
@@ -128,7 +142,7 @@ app.controller('InstantSearchController',function($scope, searchService){
 app.provider('searchService',function(){
     this.$get=function($http,$q){
         return{
-            getBooks:function(){
+            getEvents:function(){
                 var deferred=$q.defer();
                 $http({
                     method:'GET',
@@ -137,11 +151,19 @@ app.provider('searchService',function(){
                     deferred.resolve(data);
                 }).error(function(){
                     deferred.reject('request failed');
-                })
+                });
                 return deferred.promise;
+            },
+            postApproveEvents:function(data){
+                console.log('postdata==='+data);
+                $http.post('http://localhost:8080/events-1/api/reviewEvent/approveevents', data).
+                  success(function(data, status, headers, config) {
+                    console.log('success');
+                  }).
+                  error(function(data, status, headers, config) {
+                    console.log('error');
+                  });
             }
-        }
-    }
+        };
+    };
 });
-console.log(bar);
-var bar=1;

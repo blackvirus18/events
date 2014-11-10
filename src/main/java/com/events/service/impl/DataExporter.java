@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.client.ClientProtocolException;
@@ -41,7 +42,9 @@ public class DataExporter implements IDataExporter {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		closeConnection();
+		finally{
+			closeConnection();
+		}
 	}
 		public List<Club> getData(){
 			createConnection();
@@ -53,6 +56,7 @@ public class DataExporter implements IDataExporter {
 				club.setEvents(getEventsData(club.getId()));
 				finalClubData.add(club);
 			}
+			closeConnection();
 			return clubs;
 		}
 		private Location getLocationData(String id) {
@@ -238,7 +242,29 @@ public class DataExporter implements IDataExporter {
 	}
 
 
-
+	public void updateApprovedEvents(List<HashMap> events){
+		PreparedStatement  stmt=null;
+		String sql = "update event_data set name=?,description=?,isVerified=?,validTill=? where event_id=?";
+		try{
+			createConnection();
+			stmt=conn.prepareStatement(sql);
+			for(HashMap event:events){
+				stmt.setString(1, (String)event.get("name"));
+				stmt.setString(2, (String)event.get("description"));
+				stmt.setInt(3, 1);
+				stmt.setString(4, (String)event.get("validTill"));
+				stmt.setString(5, (String)event.get("id"));
+				stmt.addBatch();
+			}
+			stmt.executeBatch();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			closeConnection();
+		}
+	}
 	private void createConnection() {
 		try {
 			Class.forName(JDBC_DRIVER).newInstance();

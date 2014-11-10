@@ -9,9 +9,25 @@
 <script type="text/javascript"
 	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular.js"></script>
 <script src="../js/app.js"></script>
+<style type="text/css">
+	input{
+		height: 100px;
+	}
+	td{
+		width: 12.5%;
+		word-wrap: break-word;
+	}
+	table{
+		table-layout: fixed;
+		width: 300%;
+	}
+	img{
+		width: 100%;
+	}
+</style>
 </head>
 <body>
-	<div ng-app="instantSearch" ng-controller="InstantSearchController">
+	<div ng-app="instantSearch" ng-controller="InstantSearchController" ng-init="getitems()">
 		<div class="abPanel">
 			<h2>List Contacts</h2>
 			<table id='contactsGrid' width='100%' border='1' cellspacing='1'>
@@ -25,11 +41,21 @@
 					<td id="valid_till" sort-button><b>Valid Till</b><span>+</span></td>
 					<td id="is_valid" sort-button><b>Is Valid??</b><span>+</span></td>
 				</tr>
-				<tr	ng-repeat="i in items | orderBy:sortorder">
-					<td id="club_name" sort-button><b>{{i.name}}</b><span>+</span></td>
+				<table id='contactsGrid' width='100%' border='1' cellspacing='1' ng-repeat="i in items">
+					<tr	ng-repeat="j in i.events | orderBy:sortorder">
+					<td class="club_name" sort-button>{{i.name}}</td>
+					<td class="club_link" sort-button><a href="{{j.link}}">{{j.link}}</a></td>
+					<td class="club_imageSrc" sort-button><img src="{{j.imageSrc}}"></td>
+					<td class="event_name" sort-button><textarea rows="10" cols="30">{{j.name}}</textarea> </td>
+					<td class="event_description" sort-button> <textarea rows="10" cols="30">{{j.description}}</textarea></td>
+					<td class="start_date" sort-button><textarea rows="10" cols="30">{{j.startDate}}</textarea></td>
+					<td class="valid_till" sort-button><textarea rows="10" cols="30">{{j.valid}}</textarea></td>
+					<td  sort-button><input id="{{j.id}}" type="checkbox" name="isValid" value="true" ></td>
 				</tr>
+				</table
 			</table>
 		</div>
+		<input type="submit" value="Approve Events" ng-click="approveEvents()"/>
 	</div>
 </body>
 </html>
