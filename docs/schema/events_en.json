@@ -1,0 +1,160 @@
+{
+    "events_en": {
+        "_routing": {
+            "required": true,
+            "path": "id"
+        },
+        "_index": {
+            "enabled": true
+        },
+        "_type": {
+            "index": "no"
+        },
+        "_source": {
+            "enabled": true
+        },
+        "_size": {
+            "enabled": true,
+            "store": "yes"
+        },
+        "_timestamp": {
+            "enabled": true
+        },
+        "_all": {
+            "enabled": true
+        },
+        "index_analyzer": "en_analyzer",
+        "search_analyzer": "en_analyzer",
+        "properties": {
+            "id": {
+                "type": "string",
+                "include_in_all": false,
+                "index": "not_analyzed"
+            },
+            "name": {
+                "type": "string",
+                "include_in_all": true,
+                "index": "analyzed",
+                "index_analyzer": "en_analyzer",
+                "search_analyzer": "en_analyzer"
+            },
+            "coverPhoto": {
+                "type": "string",
+                "include_in_all": false,
+                "index": "not_analyzed"
+            },
+            "website": {
+                "type": "string",
+                "include_in_all": false,
+                "index": "not_analyzed"
+            },
+            "facebookPage": {
+                "type": "string",
+                "include_in_all": false,
+                "index": "not_analyzed"
+            },
+            "contactNumber": {
+                "type": "string",
+                "include_in_all": false,
+                "index": "not_analyzed"
+            },
+            "description": {
+                "type": "string",
+                "include_in_all": true,
+                "index": "analyzed",
+                "index_analyzer": "en_analyzer",
+                "search_analyzer": "en_analyzer"
+            },
+            "profilePic": {
+                "type": "string",
+                "include_in_all": false,
+                "index": "not_analyzed"
+            },
+            "events": {
+                "type": "nested",
+                "include_in_parent": true,
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "include_in_all": false,
+                        "index": "not_analyzed"
+                    },
+                    "name": {
+                        "type": "string",
+                        "include_in_all": true,
+                        "index": "analyzed",
+                        "index_analyzer": "en_analyzer",
+                        "search_analyzer": "en_analyzer"
+                    },
+                    "validTill": {
+                        "type": "date",
+                        "include_in_all": true,
+                        "format":"basic_date_time",
+                        "index": "not_analyzed"
+                    },
+                    "imageSrc": {
+                        "type": "string",
+                        "include_in_all": false,
+                        "index": "not_analyzed"
+                    },
+                    "description": {
+                        "type": "string",
+                        "include_in_all": true,
+                        "index": "analyzed",
+                        "index_analyzer": "en_analyzer",
+                        "search_analyzer": "en_analyzer"
+                    },
+                    "link": {
+                        "type": "string",
+                        "include_in_all": false,
+                        "index": "not_analyzed"
+                    }
+                }
+            },
+            "categories": {
+                "type": "nested",
+                "include_in_parent": true,
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "include_in_all": true,
+                        "index": "analyzed",
+                        "index_analyzer": "en_analyzer",
+                        "search_analyzer": "en_analyzer"
+                    }
+                }
+            },
+            "location": {
+                "type": "nested",
+                "include_in_parent": true,
+                "properties": {
+                    "country": {
+                        "type": "string",
+                        "include_in_all": false,
+                        "index": "not_analyzed"
+                    },
+                    "city": {
+                        "type": "string",
+                        "include_in_all": false,
+                        "index": "not_analyzed"
+                    },
+                    "latitude": {
+                        "type": "string",
+                        "include_in_all": false,
+                        "index": "not_analyzed"
+                    },
+                    "longitude": {
+                        "type": "string",
+                        "include_in_all": false,
+                        "index": "not_analyzed"
+                    },
+                    "zip": {
+                        "type": "string",
+                        "include_in_all": false,
+                        "index": "not_analyzed"
+                    }
+                }
+            }
+        }
+    }
+}

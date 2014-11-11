@@ -1,0 +1,53 @@
+{
+  "index": {
+	"number_of_shards" : 1,
+    "analysis": {
+      "analyzer": {
+        "en_analyzer": {
+          "filter": [
+            "standard",
+            "lowercase",
+            "asciifolding"
+          ],
+		  "char_filter" : [
+					"html_strip"
+			],
+          "tokenizer": "standard"       
+        },
+        "en_analyzer_stemmer": {
+          "filter": [
+            "standard",
+            "lowercase",
+            "asciifolding",
+            "english_stemmer"
+          ],
+		  "char_filter" : [
+					"html_strip"
+			],
+          "tokenizer": "standard"       
+        },        
+        "default_analyzer": {
+          "filter": [
+            "standard",
+            "lowercase",
+            "asciifolding"
+          ],
+		  "char_filter" : [
+					"html_strip"
+			],
+          "tokenizer": "standard"       
+        }
+      },
+      "filter": {
+        "french_stemmer": {
+          "type": "stemmer",
+          "name": "light_french"
+      	},
+        "english_stemmer": {
+            "type": "stemmer",
+            "name": "minimal_english"
+        }      	
+      }
+    }
+  }
+}
